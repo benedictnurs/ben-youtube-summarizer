@@ -57,6 +57,7 @@ if video_url:
             command = f"Strictly only reply in a summary and summarize, {transcript_text} in a paragraph."
             output = query({
 	            "inputs": command,
+                
             })
             messy = "".join(list(output[0].values()))
             summary = remove_prefix(messy, "in a paragraph.")
