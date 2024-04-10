@@ -1,6 +1,7 @@
 import re
 import streamlit as st
 from youtube_transcript_api import YouTubeTranscriptApi as yt
+import requests
 
 
 # uses regex
@@ -21,6 +22,23 @@ st.title("Youtube Summarizer")
 video_url = st.text_input("Enter YouTube link:")
 
 
+API_URL = "https://api-inference.huggingface.co/models/google/gemma-1.1-7b-it"
+API_TOKEN =st.secrets["API_TOKEN"]
+
+
+headers = {"Authorization": f"Bearer {API_TOKEN}"}
+
+def query(payload):
+	response = requests.post(API_URL, headers=headers, json=payload)
+	return response.json()
+	
+def remove_prefix(text, prefix):
+    index = text.find(prefix)
+    if index != -1:
+        return text[index + len(prefix):]
+    return text
+
+
 # check url
 if video_url:
     video_id = get_video_id(video_url)
@@ -33,6 +51,17 @@ if video_url:
             for i in transcript:
                 transcript_text += list(i.values())[0] + " "
 
+            # display summary of transcript
+            st.title("Summary")
+            command = f"Summarize {transcript_text} in a paragraph"
+            output = query({
+	            "inputs": command,
+            })
+            messy = "".join(list(output[0].values()))
+            summary = remove_prefix(messy, "in a paragraph")
+
+            st.write(summary)
+            
             # display transcript
             st.title("Transcript")
             cols = st.columns(1)
