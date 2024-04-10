@@ -23,7 +23,7 @@ video_url = st.text_input("Enter YouTube link:")
 
 
 API_URL = "https://api-inference.huggingface.co/models/google/gemma-1.1-7b-it"
-API_TOKEN =st.secrets["API_TOKEN"]
+API_TOKEN = st.secrets["API_TOKEN"]
 
 
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
