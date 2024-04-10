@@ -4,6 +4,7 @@ from youtube_transcript_api import YouTubeTranscriptApi as yt
 import requests
 
 
+
 # uses regex
 def get_video_id(url):
     pattern = r"(?<=v=)[a-zA-Z0-9_-]+(?=&|\?|$)"
@@ -22,9 +23,9 @@ st.title("Youtube Summarizer")
 video_url = st.text_input("Enter YouTube link:")
 
 
-API_URL = "https://api-inference.huggingface.co/models/google/gemma-1.1-7b-it"
+API_URL = "https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2"
 API_TOKEN = st.secrets["API_TOKEN"]
-
+#st.secrets["API_TOKEN"]
 
 headers = {"Authorization": f"Bearer {API_TOKEN}"}
 
@@ -52,18 +53,18 @@ if video_url:
                 transcript_text += list(i.values())[0] + " "
 
             # display summary of transcript
-            st.title("Summary")
-            command = f"Summarize {transcript_text} in a paragraph"
+            st.title("Summary:")
+            command = f"Strictly only reply in a summary and summarize, {transcript_text} in a paragraph."
             output = query({
 	            "inputs": command,
             })
             messy = "".join(list(output[0].values()))
-            summary = remove_prefix(messy, "in a paragraph")
+            summary = remove_prefix(messy, "in a paragraph.")
 
             st.write(summary)
             
             # display transcript
-            st.title("Transcript")
+            st.title("Transcript:")
             cols = st.columns(1)
             cols[0].write(transcript_text)
             css = '''
@@ -73,7 +74,7 @@ if video_url:
                 }
                 [data-testid="column"]>div>div>div>div>div {
                     overflow: auto;
-                    height: 25vh;
+                    height: 20vh;
                 }
             </style>
             '''
