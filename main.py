@@ -17,7 +17,7 @@ st.set_page_config(
     page_title="Summary AI",
     page_icon="🤓",
 )
-st.title("Ben's Youtube Thing")
+st.title("Youtube Summarizer")
 video_url = st.text_input("Enter YouTube link:")
 
 
