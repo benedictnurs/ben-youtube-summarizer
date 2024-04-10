@@ -2,6 +2,7 @@ import re
 import streamlit as st
 from youtube_transcript_api import YouTubeTranscriptApi as yt
 
+
 # uses regex
 def get_video_id(url):
     pattern = r"(?<=v=)[a-zA-Z0-9_-]+(?=&|\?|$)"
@@ -12,8 +13,13 @@ def get_video_id(url):
         return None
 
 # setup stuffs
+st.set_page_config(
+    page_title="Summary AI",
+    page_icon="🤓",
+)
 st.title("Ben's Youtube Thing")
 video_url = st.text_input("Enter YouTube link:")
+
 
 # check url
 if video_url:
