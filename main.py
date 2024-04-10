@@ -79,7 +79,7 @@ if video_url:
                 }
             </style>
             '''
-            st.markdown(css)
+            st.markdown(css, unsafe_allow_html=True)
         except Exception as e:
             st.error("Error")
     else:
